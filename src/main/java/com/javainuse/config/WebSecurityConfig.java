@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/authenticate").permitAll()
+				.and().authorizeRequests().antMatchers("/resources/**").permitAll()
 				.and().authorizeRequests().antMatchers("/register").permitAll()
 	        	.and().authorizeRequests().antMatchers("/h2-console/**").permitAll().
 
