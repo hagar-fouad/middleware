@@ -1,19 +1,21 @@
 package com.javainuse.controller;
 
+import com.google.gson.Gson;
 import com.javainuse.model.User;
+import com.javainuse.model.Workflow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.javainuse.config.JwtTokenUtil;
 import com.javainuse.model.JwtRequest;
 import com.javainuse.model.JwtResponse;
 import com.javainuse.service.JwtUserDetailsService;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
 @RestController
 @CrossOrigin
@@ -42,6 +44,7 @@ public class AuthController {
 
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
+
 
 
 }

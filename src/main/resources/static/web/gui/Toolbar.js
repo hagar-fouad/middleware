@@ -27,10 +27,15 @@ example.Toolbar = Class.extend({
 		  this.OpenButton  = $("<button>open</button>");
 		this.html.append(this.OpenButton);
 		this.OpenButton.button().click($.proxy(function(){
+		var urlParams = new URLSearchParams(window.location.search);
+
+         var token= urlParams.get('token'); //
 
 			$.ajax({
 				type: "GET",
 				url: "/workflow",
+				headers: {"Authorization": "Bearer "+token},
+
 				//data:JSON.stringify(shape),
 				success: getSuccess ,
 				contentType: "application/json",
@@ -139,9 +144,13 @@ example.Toolbar = Class.extend({
                                 //Workflow.ShapesArray=figArray
 
                                 console.log(workflow.shapesArray)
+                                var urlParams = new URLSearchParams(window.location.search);
+
+                                var token= urlParams.get('token'); //
                                 $.ajax({
                     				type: "POST",
                     				url: "/workflow",
+                    				 headers: {"Authorization": "Bearer "+token},
                     				data: JSON.stringify(workflow),
                     				success: success(),
                     				contentType: "application/json",

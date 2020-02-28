@@ -20,7 +20,11 @@
         type: "POST",
         url: "http://localhost:8070/authenticate",
         data: JSON.stringify(obj),
-        success: function (data) { window.location.href = '/web/index.html';console.log("success") },
+        success: function (data) {
+            console.log(data);
+
+            window.location.href = '/web/index.html?token=' + data.token;console.log("success")
+        },
         error: function (jqXHR, textStatus, errorThrown) { console.log("error") },
         contentType: "application/json",
         dataType: 'json'
