@@ -7,13 +7,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
      function success(){
+        window.location.href = '/web/index.html';
       console.log("success")
     }
     function sendUsername(){
       var name=document.getElementById("username").value
       var pass=document.getElementById("password").value
-	  //in js writing json object without double quotes
-	  //must send an object of json not an array
       var obj={username:name,password:pass}
 
       console.log(obj);
@@ -21,7 +20,8 @@
         type: "POST",
         url: "http://localhost:8070/authenticate",
         data: JSON.stringify(obj),
-        success: success(),
+        success: function (data) { window.location.href = '/web/index.html';console.log("success") },
+        error: function (jqXHR, textStatus, errorThrown) { console.log("error") },
         contentType: "application/json",
         dataType: 'json'
         });
