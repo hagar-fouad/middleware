@@ -78,6 +78,7 @@ example.Toolbar = Class.extend({
                                     var tempShape = new Object()
                                     var previous2= new Object()
                                     var next2 = new Object()
+                                    var nextArray = new Array()
                                     var ShapesArray2= new Array()
                                     var userdata= []
                                     tempShape.x= customCanvas.figures.data[i].x
@@ -118,21 +119,36 @@ example.Toolbar = Class.extend({
                                          next2.x=null
                                          next2.y=null
                                          next2.id="null"
+                                         nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
                                     }
                                     else if(customCanvas.figures.data[i].outputPorts.data[0].connections.data.length!== 0){
+
+
                                         console.log(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass)
                                         next2.type=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass
                                         next2.x=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.x
                                         next2.y=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.y
                                         next2.id=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.id
+                                        nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
+                                        if(customCanvas.figures.data[i].cssClass==="diamond")
+                                        {
+                                             next2.type=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.cssClass
+                                             next2.x=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.x
+                                             next2.y=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.y
+                                             next2.id=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.id
+                                             nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
+                                        }
+
+
                                     }
                                     else{
                                         next2.type=null
                                          next2.x=null
                                          next2.y=null
                                          next2.id="null"
+                                         nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
                                     }
-                                    tempShape.next=next2
+                                    tempShape.next=nextArray
                                     tempShape.previous=previous2
 
                                     ShapesArray2.push(tempShape)

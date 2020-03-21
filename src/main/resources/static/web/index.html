@@ -41,9 +41,15 @@
     <script src="./gui/condition.js"></script>
     <script src="./gui/DblClickCanvasPolicy.js"></script>
     <script src="./gui/diamond.js"></script>
+
+    <script src="./gui/GetAccountDetails.js"></script>
+    <script src="./gui/ReadMobNumber.js"></script>
+    <script src="./gui/UpdateBalanceDate.js"></script>
     <script type="text/javascript">
 
-document.addEventListener("DOMContentLoaded",function () {
+
+
+    document.addEventListener("DOMContentLoaded",function () {
 
      var app  = new example.Application();
      app.view.installEditPolicy(  new draw2d.policy.connection.DragConnectionCreatePolicy({
@@ -110,8 +116,8 @@ document.addEventListener("DOMContentLoaded",function () {
          option.text=temp
          x.append(option)
             var array= []
-            array[0]=document.getElementById("var2text").value
-            array[1]=document.getElementById("var1text").value
+            array[0]=document.getElementById("var1text").value
+            array[1]=document.getElementById("var2text").value
             myfigure.userData=array
 
          count++
@@ -160,8 +166,20 @@ document.addEventListener("DOMContentLoaded",function () {
 
 
       <a href= "#"data-shape="diamond"  class=" draw2d_droppable">Condition</a>
-      <a href="#about">Function</a>  
-      <button class="dropdown-btn">Arthimatic Operation
+       <button class="dropdown-btn">Predefined Functions
+           <i class="fa fa-caret-down"></i> </button>
+       <div class="dropdown-container">
+           <a href="#"data-shape="GetAccountDetails"   class=" draw2d_droppable">GetAccountDetails</a>
+           <a href="#"data-shape="UpdateBalanceDate"   class=" draw2d_droppable">UpdateBalanceDate</a>
+       </div>
+       <button class="dropdown-btn">Functions
+           <i class="fa fa-caret-down"></i> </button>
+       <div class="dropdown-container">
+           <a href="#"data-shape="ReadMobNumber"   class=" draw2d_droppable">ReadMobNumber</a>
+
+       </div>
+
+       <button class="dropdown-btn">Arthimatic Operation
       <i class="fa fa-caret-down"></i> </button>
       <div class="dropdown-container">
         <a href="#"data-shape="addition"   class=" draw2d_droppable">Addition</a>
