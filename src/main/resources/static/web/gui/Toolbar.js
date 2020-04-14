@@ -66,6 +66,7 @@ example.Toolbar = Class.extend({
 		this.SaveButton  = $("<button>Save</button>");
         		this.html.append(this.SaveButton);
         		this.SaveButton.button().click($.proxy(function(){
+        		console.log("/////////////////////////")
         			console.log(customCanvas)
                                 var count =customCanvas.figures.data.length
                                  var workflow= {name:" ",shapesArray:[]}
@@ -81,15 +82,33 @@ example.Toolbar = Class.extend({
                                     var nextArray = new Array()
                                     var ShapesArray2= new Array()
                                     var userdata= []
-                                    tempShape.x= customCanvas.figures.data[i].x
+                                    var label=[]
+                                    tempShape.x= customCanvas.figures.data[i].x  //dh l figure bs [customCanvas.figures.data[i]]
                                     tempShape.y= customCanvas.figures.data[i].y
                                     tempShape.type= customCanvas.figures.data[i].cssClass
                                     tempShape.id= customCanvas.figures.data[i].id
                                     if(customCanvas.figures.data[i].userData!=null)
                                     {
-                                            tempShape.userdata=customCanvas.figures.data[i].userData
+                                    if (customCanvas.figures.data[i].cssClass==="diamond"){
+                                    label=customCanvas.figures.data[i].userData
+                                                                             label.push(customCanvas.figures.data[i].label.text)
+                                                                             label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
+                                                                             label.push(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                                                             tempShape.userdata=label
+                                                                              console.log(tempShape.userdata)
+                                                                              }
+                                   else  tempShape.userdata=customCanvas.figures.data[i].userData
                                     }
                                     else{
+                                        if (customCanvas.figures.data[i].cssClass==="diamond"){
+                                         label.push(customCanvas.figures.data[i].label.text)
+                                         label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
+                                         label.push(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                         tempShape.userdata=label
+                                          console.log(tempShape.userdata)
+                                          }
+
+                                        else
                                         tempShape.userdata=[]
                                         }
                                     if(customCanvas.figures.data[i].cssClass==="start")
@@ -132,6 +151,7 @@ example.Toolbar = Class.extend({
                                         nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
                                         if(customCanvas.figures.data[i].cssClass==="diamond")
                                         {
+
                                              next2.type=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.cssClass
                                              next2.x=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.x
                                              next2.y=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.y

@@ -8,6 +8,7 @@
    <link type="text/css" rel="stylesheet" href="./css/aristo/jquery-ui-1.8.16.custom.css" />
    <link type="text/css" rel="stylesheet" href="./css/jquery.layout.css" />
    <link type="text/css" rel="stylesheet" href="./css/application.css" />
+    <link type="text/css" rel="stylesheet" href="./css/example.css" />
 
     <script src="./lib/jquery.js"></script>
     <script src="./lib/jquery-ui.js"></script>
@@ -20,7 +21,7 @@
 	  <script src="./gui/View.js"></script>
     <script src="./gui/Toolbar.js"></script>
     <script src="./gui/HoverConnection.js"></script>
-
+    <script src="./gui/LabelConnection.js"></script>
     
     <script src="./gui/testShape.js"></script>
     <script src="./gui/addition.js"></script>
@@ -49,12 +50,18 @@
 
 
 
+
     document.addEventListener("DOMContentLoaded",function () {
 
      var app  = new example.Application();
      app.view.installEditPolicy(  new draw2d.policy.connection.DragConnectionCreatePolicy({
         createConnection: function(){
+        if (myfigure.cssClass==="diamond")
+            return new LabelConnection();
+        else{
+              console.log("hover connnection");
             return new HoverConnection();
+            }
         }
       }));
       app.view.installEditPolicy(new DblClickCanvasPolicy());
@@ -66,8 +73,8 @@
         var resultsDic={}
         var count=1;
 
-
-
+        var arr=[]
+        var hoo=0
        function saveDic(name,value) 
        {
 
@@ -75,6 +82,13 @@
          console.log(value)
          document.getElementById("variables").append(name)
          //document.getElementById("variables")
+         arr[hoo]=document.getElementById('inpName').value
+           myfigure.userData=arr
+           console.log(arr[hoo])
+           console.log(hoo)
+           console.log(arr)
+           hoo++
+
 
 
        }

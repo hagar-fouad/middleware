@@ -28,14 +28,14 @@ var diamond = draw2d.shape.basic.Polygon.extend({
       port = this.createPort("output", new draw2d.layout.locator.XYRelPortLocator(1.5151515151515151, 50));
       port.setConnectionDirection();
       port.setBackgroundColor("#37B1DE");
-      port.setName("Port");
+      port.setName("leftport");
       port.setMaxFanOut(20);
       this.persistPorts=false;
       // Port
       port = this.createPort("output", new draw2d.layout.locator.XYRelPortLocator(98.48484848484848, 50));
       port.setConnectionDirection();
       port.setBackgroundColor("#37B1DE");
-      port.setName("Port");
+      port.setName("rightport");
       port.setMaxFanOut(20);
       // Port
       port = this.addPort(new DecoratedInputPort(), new draw2d.layout.locator.XYRelPortLocator(50, 0));
@@ -44,8 +44,7 @@ var diamond = draw2d.shape.basic.Polygon.extend({
       port.setName("Port");
       port.setMaxFanOut(20);
       this.persistPorts=false;
-
-      ///////////
+      /////////////
       
       this.label = new draw2d.shape.basic.Label({text:"condition", color:"#0d0d0d", fontColor:"#0d0d0d"});
       
