@@ -38,9 +38,11 @@ public class shapeController {
     @PostMapping("/workflow")
     public String saveShape(@RequestBody Workflow x) throws IOException {
         try {
-            Writer writer = new FileWriter("user.json");
+            String Filename=x.getName()+".json";
+            System.out.println(Filename);
+            Writer writer = new FileWriter(Filename);
             System.out.println(x);
-            new Gson().toJson(x, writer);
+            new Gson().toJson(x.getShapesArray(), writer);
             writer.close();
 
         } catch (Exception ex) {

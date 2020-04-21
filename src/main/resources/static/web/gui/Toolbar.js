@@ -183,6 +183,7 @@ example.Toolbar = Class.extend({
                                 var urlParams = new URLSearchParams(window.location.search);
 
                                 var token= urlParams.get('token'); //
+
                                 $.ajax({
                     				type: "POST",
                     				url: "/workflow",
