@@ -28,8 +28,20 @@ example.Toolbar = Class.extend({
 		this.html.append(this.OpenButton);
 		this.OpenButton.button().click($.proxy(function(){
 		var urlParams = new URLSearchParams(window.location.search);
-
+var openWN=document.getElementById("workflowName").value
          var token= urlParams.get('token'); //
+              $.ajax({
+				type: "POST",
+				url: "/wn",
+				headers: {"Authorization": "Bearer "+token},
+				data:openWN,
+				//success: getSuccess ,
+				//contentType: "application/json",
+				dataType: "text"
+			  });
+			  var urlParams = new URLSearchParams(window.location.search);
+
+                       var token= urlParams.get('token'); //
 
 			$.ajax({
 				type: "GET",
@@ -89,21 +101,22 @@ example.Toolbar = Class.extend({
                                     tempShape.id= customCanvas.figures.data[i].id
                                     if(customCanvas.figures.data[i].userData!=null)
                                     {
-                                    if (customCanvas.figures.data[i].cssClass==="diamond"){
+                                    if (customCanvas.figures.data[i].cssClass==="diamond")
+                                       {
                                     label=customCanvas.figures.data[i].userData
-                                                                             label.push(customCanvas.figures.data[i].label.text)
-                                                                             label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
-                                                                             label.push(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
-                                                                             tempShape.userdata=label
-                                                                              console.log(tempShape.userdata)
-                                                                              }
+                                    label.unshift(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
+                                     label.unshift(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                      label.unshift(customCanvas.figures.data[i].label.text)
+                                        tempShape.userdata=label
+                                        console.log(tempShape.userdata)
+                                           }
                                    else  tempShape.userdata=customCanvas.figures.data[i].userData
                                     }
                                     else{
                                         if (customCanvas.figures.data[i].cssClass==="diamond"){
                                          label.push(customCanvas.figures.data[i].label.text)
-                                         label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
                                          label.push(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                         label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
                                          tempShape.userdata=label
                                           console.log(tempShape.userdata)
                                           }
@@ -143,13 +156,13 @@ example.Toolbar = Class.extend({
                                     else if(customCanvas.figures.data[i].outputPorts.data[0].connections.data.length!== 0){
 
 
-                                        console.log(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass)
+                                        //console.log(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass)
                                         next2.type=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass
                                         next2.x=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.x
                                         next2.y=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.y
                                         next2.id=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.id
                                         nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
-                                        if(customCanvas.figures.data[i].cssClass==="diamond")
+                                       if(customCanvas.figures.data[i].cssClass==="diamond")
                                         {
 
                                              next2.type=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.cssClass
@@ -211,66 +224,145 @@ example.Toolbar = Class.extend({
                               {
                                 console.log("GET SUCCESS")
                                  console.log(data)
-                                 console.log(data.name)
-                                 console.log(data.shapesArray)
-                                 var temp=data.shapesArray
-                                 console.log(temp)
+                                 //console.log(data.name)
+                                 //console.log(data.shapesArray)
+                                 //
+                                 //var temp=data.shapesArray
+                                //
+                                 //console.log(temp)
                                   var i =0
                                   var count=0
                                   var count2=0
                                   var size=0
                                   var shapesDone=0
-
-                                  while(data.shapesArray[count2].type!=="start")
+                                  while(data[count2].type!=="start")
                                   {
                                       count2++
                                   }
-                                 size=data.shapesArray.length
+                                 size=data.length
                                   var nextShape
+                                  var Nextfigure1
+                                  var Nextfigure2
+                                  var nextsize
+                                  var Nextfigure3
+                                  var labels
                                   for(var x = 0;x <size-1;x++)
                                   {
-
-                                        var count3=0
+                                    var count3=0
                                       if(count===0){
-                                            var type = data.shapesArray[count2].type
+                                            var type = data[count2].type
                                             var figure = eval("new "+type+"();");
-                                            customCanvas.add( figure, data.shapesArray[count2].x,data.shapesArray[count2].y);
+                                             figure.userData=data[count2].userdata
+                                            customCanvas.add( figure, data[count2].x,data[count2].y,data[count2]);
                                            // customCanvas.figures.data[shapesDone].userData=data.shapesArray[count2].userdata
                                            // shapesDone++
-                                            var type2=data.shapesArray[count2].next.type;
-                                            nextShape=data.shapesArray[count2].next
-                                            console.log(type);
-                                            console.log(type2)
-                                            var figure2=  eval("new "+type2+"();");
-                                           customCanvas.add( figure2, data.shapesArray[count2].next.x,data.shapesArray[count2].next.y);
+                                           // var type2=data[count2].next[]type;
+                                            //nextShape=data[count2].next
+                                            nextShape=data[count2].next[0];
+                                            var nexttype1=data[count2].next[0].type;//kanni nexts
+                                             Nextfigure1=  eval("new "+nexttype1+"();");
+                                             if (nexttype1=="diamond"){
+                                                                                          for(var g=0;g<size-1;g++){
+                                                                                          if(nexttype1==data[g].type){
+                                                                                          labels=data[g].userdata[0]
+                                                                                          break;
+                                                                                          }
+                                                                                          }
+                                                                                          Nextfigure1.label.text=labels
+                                                                                          }
+
+                                           customCanvas.add( Nextfigure1, data[count2].next[0].x,data[count2].next[0].y);
+
                                            //customCanvas.figures.data[shapesDone].userData=data.shapesArray[count2].userdata
                                            //shapesDone++
-                                           count++;
+                                           //count++;
                                        }
                                        else{
-                                       figure=figure2
-                                       while(nextShape.y!==data.shapesArray[count3].y||nextShape.x!==data.shapesArray[count3].x||nextShape.type!==data.shapesArray[count3].type)
+                                        figure=Nextfigure1
+                                        if (figure.cssClass=="end"){
+                                        console.log("i will break")
+                                        break;
+                                        }
+                                        if (data[count].type!=="end")
+                                            nextShape=data[count].next[0]
+                                       while(nextShape.y!==data[count3].y||nextShape.x!==data[count3].x||nextShape.type!==data[count3].type)
                                        {
                                             count3++
+                                            if(count3==size)
+                                            count3=0
                                        }
-
-                                       nextShape=data.shapesArray[count3].next
-                                       type2=data.shapesArray[count3].next.type
-                                       var figure2 = eval("new "+type2+"();");
-                                       customCanvas.add( figure2, nextShape.x,nextShape.y);
+                                       figure.userData=data[count3].userdata
+                                       figure.next=data[count3].next
+                                          if (figure.next.length>1){
+                                            nexttype1=figure.next[0].type;
+                                            Nextfigure1=eval("new "+nexttype1+"();");
+                                           var nexttype2=figure.next[1].type
+                                           Nextfigure2=  eval("new "+nexttype2+"();");
+                                           Nextfigure1.userData=figure.next[0].userdata
+                                           Nextfigure2.userData=figure.next[1].userdata
+                                           /////////////////
+                                           for (var g=0;g<data.length-1;g++){//atnen 3ndhm nfs l end
+                                           if (data[g].x==data[count3].next[1].x&&data[g].y==data[count3].next[1].y &&data[g].type==data[count3].next[1].type)
+                                                 Nextfigure3=data[g].next
+                                           if (data[g].x==data[count3].next[0].x&&data[g].y==data[count3].next[0].y &&data[g].type==data[count3].next[0].type)
+                                                                                            Nextfigure2.next=data[g].next
+                                           }
+                                          customCanvas.add( Nextfigure1, figure.next[0].x,figure.next[0].y);
+                                         customCanvas.add( Nextfigure2, figure.next[1].x,figure.next[1].y);
+                                           var c = new LabelConnection({
+                                           	     source:figure.getOutputPort(1),
+                                           	     target:Nextfigure1.getInputPort(0)
+                                           	 });
+                                           	figure.outputPorts.data[1].connections.data[0].label.text=figure.userData[1]
+                                           	 customCanvas.add(c);
+                                           	 var d = new LabelConnection({
+                                           	  source:figure.getOutputPort(0),
+                                           	   target:Nextfigure2.getInputPort(0)
+                                           	   });
+                                           	   figure.outputPorts.data[0].connections.data[0].label.text=figure.userData[2]
+                                           	   customCanvas.add(d);
+                                            Nextfigure3=Nextfigure2
+                                            console.log(Nextfigure3)
+                                             i++;
+                                             count++;
+                                             continue;
+                                                        }
+                                        else{
+                                       nextShape=data[count3].next[0]
+                                        nexttype1=data[count3].next[0].type
+                                       Nextfigure1 = eval("new "+nexttype1+"();");
+                                       Nextfigure1.userData=data[count3].userdata
+                                       customCanvas.add( Nextfigure1, nextShape.x,nextShape.y);
+                                       }
                                        //customCanvas.figures.data[shapesDone].userData=data.shapesArray[count3].userdata
                                        //shapesDone++
-
-                                       console.log(type+"      ff   " +type2)
+                                       console.log(type+"      ff   " +nexttype1)
                                        }
+                                        if(Nextfigure1.cssClass=="end"&&Nextfigure3!=null)
+                                            {
+                                            var h = new draw2d.Connection();
+                                            h.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+                                             h.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
+                                              h.setSource(Nextfigure3.getOutputPort(0));
+                                             h.setTarget(Nextfigure1.getInputPort(0));
+                                              customCanvas.add(h);
+                                                 }
 
                                         var c = new draw2d.Connection();
+
                                         c.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
                                         c.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
+                                       // if(figure.type=="addition"&&Nextfigure1.type=="end"){)
+                                       console.log(figure)
+                                       console.log(Nextfigure1)
                                         c.setSource(figure.getOutputPort(0));
-                                        c.setTarget(figure2.getInputPort(0));
+                                        //c.setSource(figure.getOutputPort(1));
+                                        c.setTarget(Nextfigure1.getInputPort(0));
+                                        //c.setTarget(Nextfigure2.getInputPort(0));
                                         customCanvas.add(c);
+
                                       i++;
+                                      count++;
                               }
                               }
 

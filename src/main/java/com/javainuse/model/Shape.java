@@ -12,5 +12,7 @@ public class Shape {
     private Shape2 previous;
     private String[] userdata;
 
-
+public void setX(long x){
+    this.x=x;
+}
 }

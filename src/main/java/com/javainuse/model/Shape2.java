@@ -4,8 +4,12 @@ import lombok.Data;
 
 @Data
 public class Shape2 {
-    private int x;
-    private int y;
+    private long x;
+    private long y;
     private String type;
+    public long getX() {
+        return x;
+    }
+
 
 }

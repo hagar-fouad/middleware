@@ -2,37 +2,107 @@ package com.javainuse.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.javainuse.model.Shape;
+import com.javainuse.model.Shape2;
 import com.javainuse.model.Workflow;
+import org.json.simple.parser.ParseException;
+
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.io.IOException;
 
+import java.io.FileReader;
+import java.util.Iterator;
+
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 @RestController
 public class shapeController {
     //Shape[] temp = new Shape[100];
-
+    int j=0;
+       String wnname="";
+    @PostMapping("/wn")
+    public void sendname(@RequestBody String x)  {
+        x=x.substring(0, x.length() - 1);
+         wnname=x+".json";
+        System.out.println(wnname);
+    }
     @GetMapping("/workflow")
+    public Shape[] getShape() throws IOException, ParseException {
+        System.out.println("lesm wasal lelGEt");
+        Object obj = new JSONParser().parse(new FileReader(wnname));
+        // typecasting obj to JSONObject
+        JSONArray jsonArray = (JSONArray ) obj;
+        Shape[] array = new Shape[jsonArray.size()
+                ];
+        jsonArray.forEach(item -> {
+            JSONObject jo = (JSONObject) item;
+            long myX = (long) jo.get("x");
+            //System.out.println(myX);
+            array[j]=new Shape();
+            array[j].setX(myX);
 
-    public Workflow getShape() {
-       //Shape[] array = new Shape[100];
-        Workflow workflows= new Workflow();
-        try {
-            Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("user.json"));
-            //List<Shape> shapeList = new Gson().fromJson(reader, new TypeToken<List<Shape>>() {}.getType());
-            //array=shapeList.toArray(new Shape[100]);
-            workflows=new Gson().fromJson(reader,Workflow.class);
-            System.out.println(workflows);
-            reader.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return workflows;
+            long myY = (long) jo.get("y");
+            array[j].setY(myY);
+           // System.out.println(myY);
+            String myType = (String) jo.get("type");
+            //System.out.println(myType);
+            array[j].setType(myType);
+            String myID = (String) jo.get("id");
+            //System.out.println(myID);
+            array[j].setId(myID);
+            JSONArray ja = (JSONArray) jo.get("next");
+            int k=0;
+            Shape2[] mynexttemp=new Shape2[ja.size()];
+            Iterator i = ja.iterator();
+
+            while (i.hasNext()) {
+                JSONObject slide = (JSONObject) i.next();
+                String nexttype = (String)slide.get("type");
+                //System.out.println(nexttype);
+                mynexttemp[k]=new Shape2();
+                mynexttemp[k].setType(nexttype);
+                 long nextX=(long)slide.get("x");
+                //System.out.println(nextX);
+                mynexttemp[k].setX(nextX);
+                long nextY=(long)slide.get("y");
+                //System.out.println(nextY);
+                mynexttemp[k].setY(nextY);
+                k++;
+            }
+            array[j].setNext(mynexttemp);
+            JSONArray userdata = (JSONArray) jo.get("userdata");
+            String[] Myuserdata=new String[userdata.size()];
+            k=0;
+            if (userdata != null) {
+                for (Object mydata : userdata) {
+                    Myuserdata[k]=new String();
+                   Myuserdata[k]=mydata.toString();
+                   k++;
+                }
+            }
+            array[j].setUserdata(Myuserdata);
+            JSONObject previous =  (JSONObject) jo.get("previous");
+            Shape2 temp=new Shape2();
+            long f=(long)previous.get("x");
+            temp.setX(f);
+            f=(long)previous.get("y");
+            temp.setY(f);
+            temp.setType((String) previous.get("type"));
+            array[j].setPrevious(temp);
+            //System.out.println(array[j]);
+         j++;
+        });
+        /*for (Shape element: array) {
+            System.out.println(element);
+        }*/
+return array;
     }
 
     @PostMapping("/workflow")
