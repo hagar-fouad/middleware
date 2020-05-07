@@ -104,8 +104,8 @@ var openWN=document.getElementById("workflowName").value
                                     if (customCanvas.figures.data[i].cssClass==="diamond")
                                        {
                                     label=customCanvas.figures.data[i].userData
-                                    label.unshift(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
-                                     label.unshift(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                    label.unshift(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                     label.unshift(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
                                       label.unshift(customCanvas.figures.data[i].label.text)
                                         tempShape.userdata=label
                                         console.log(tempShape.userdata)
@@ -114,9 +114,9 @@ var openWN=document.getElementById("workflowName").value
                                     }
                                     else{
                                         if (customCanvas.figures.data[i].cssClass==="diamond"){
-                                         label.push(customCanvas.figures.data[i].label.text)
-                                         label.push(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
-                                         label.push(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
+                                         label.unshift(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].label.text)
+                                         label.unshift(customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].label.text)
+                                          label.unshift(customCanvas.figures.data[i].label.text)
                                          tempShape.userdata=label
                                           console.log(tempShape.userdata)
                                           }
@@ -154,7 +154,14 @@ var openWN=document.getElementById("workflowName").value
                                          nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
                                     }
                                     else if(customCanvas.figures.data[i].outputPorts.data[0].connections.data.length!== 0){
-
+                                      if(customCanvas.figures.data[i].cssClass==="diamond")
+                                        {
+                                             next2.type=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.cssClass
+                                             next2.x=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.x
+                                             next2.y=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.y
+                                             next2.id=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.id
+                                             nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
+                                        }
 
                                         //console.log(customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass)
                                         next2.type=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.cssClass
@@ -162,15 +169,7 @@ var openWN=document.getElementById("workflowName").value
                                         next2.y=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.y
                                         next2.id=customCanvas.figures.data[i].outputPorts.data[0].connections.data[0].targetPort.parent.id
                                         nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
-                                       if(customCanvas.figures.data[i].cssClass==="diamond")
-                                        {
 
-                                             next2.type=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.cssClass
-                                             next2.x=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.x
-                                             next2.y=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.y
-                                             next2.id=customCanvas.figures.data[i].outputPorts.data[1].connections.data[0].targetPort.parent.id
-                                             nextArray.push({type:next2.type , x:next2.x , y:next2.y , id:next2.id})
-                                        }
 
 
                                     }
@@ -224,146 +223,115 @@ var openWN=document.getElementById("workflowName").value
                               {
                                 console.log("GET SUCCESS")
                                  console.log(data)
-                                 //console.log(data.name)
-                                 //console.log(data.shapesArray)
-                                 //
-                                 //var temp=data.shapesArray
-                                //
-                                 //console.log(temp)
-                                  var i =0
-                                  var count=0
-                                  var count2=0
-                                  var size=0
-                                  var shapesDone=0
-                                  while(data[count2].type!=="start")
-                                  {
-                                      count2++
+                                 var size=data.length
+                                 var figure
+                                 var Nextfigure
+                                 var nextOfShape
+                                 var count=0
+                                 var nextOfShape2
+                                 var nextOfShape3
+                                 var Nextfigure3
+                                 for(var x=0;x<size;x++)
+                                 {
+                                  if(data[count].type=="end")
+                                  break;
+                                  if(count==0){
+                                  figure=eval("new "+data[count].type+"();");//start//add
+                                  figure.userData=data[count].userdata
+                                  customCanvas.add( figure, data[count].x,data[count].y);
+                                  nextOfShape=data[count].next[0]
                                   }
-                                 size=data.length
-                                  var nextShape
-                                  var Nextfigure1
-                                  var Nextfigure2
-                                  var nextsize
-                                  var Nextfigure3
-                                  var labels
-                                  for(var x = 0;x <size-1;x++)
-                                  {
-                                    var count3=0
-                                      if(count===0){
-                                            var type = data[count2].type
-                                            var figure = eval("new "+type+"();");
-                                             figure.userData=data[count2].userdata
-                                            customCanvas.add( figure, data[count2].x,data[count2].y,data[count2]);
-                                           // customCanvas.figures.data[shapesDone].userData=data.shapesArray[count2].userdata
-                                           // shapesDone++
-                                           // var type2=data[count2].next[]type;
-                                            //nextShape=data[count2].next
-                                            nextShape=data[count2].next[0];
-                                            var nexttype1=data[count2].next[0].type;//kanni nexts
-                                             Nextfigure1=  eval("new "+nexttype1+"();");
-                                             if (nexttype1=="diamond"){
-                                                                                          for(var g=0;g<size-1;g++){
-                                                                                          if(nexttype1==data[g].type){
-                                                                                          labels=data[g].userdata[0]
-                                                                                          break;
-                                                                                          }
-                                                                                          }
-                                                                                          Nextfigure1.label.text=labels
-                                                                                          }
+                                  else{//eb2a rsmt l shkl dh abl kda
+                                  figure=Nextfigure
+                                  nextOfShape=data[count].next[0]
+                                  if(figure.cssClass=="diamond"){
+                                  nextOfShape=data[count].next[1]
+                                  nextOfShape2=data[count].next[0]
+                                  }
+                                  }
 
-                                           customCanvas.add( Nextfigure1, data[count2].next[0].x,data[count2].next[0].y);
+                                  for(var g=0;g<size;g++){//34an ageb l next class kaml
+                                  if(figure.cssClass=="diamond"){
+                                  if (nextOfShape2.type==data[g].type&&nextOfShape2.x==data[g].x&&nextOfShape2.y==data[g].y)
+                                  nextOfShape2=data[g]
+                                  }
+                                  if (nextOfShape.type==data[g].type&&nextOfShape.x==data[g].x&&nextOfShape.y==data[g].y){
+                                     console.log("d5l l if")
+                                     nextOfShape=data[g]
+                                     count=g;
+                                  }
+                                  }
 
-                                           //customCanvas.figures.data[shapesDone].userData=data.shapesArray[count2].userdata
-                                           //shapesDone++
-                                           //count++;
-                                       }
-                                       else{
-                                        figure=Nextfigure1
-                                        if (figure.cssClass=="end"){
-                                        console.log("i will break")
-                                        break;
-                                        }
-                                        if (data[count].type!=="end")
-                                            nextShape=data[count].next[0]
-                                       while(nextShape.y!==data[count3].y||nextShape.x!==data[count3].x||nextShape.type!==data[count3].type)
-                                       {
-                                            count3++
-                                            if(count3==size)
-                                            count3=0
-                                       }
-                                       figure.userData=data[count3].userdata
-                                       figure.next=data[count3].next
-                                          if (figure.next.length>1){
-                                            nexttype1=figure.next[0].type;
-                                            Nextfigure1=eval("new "+nexttype1+"();");
-                                           var nexttype2=figure.next[1].type
-                                           Nextfigure2=  eval("new "+nexttype2+"();");
-                                           Nextfigure1.userData=figure.next[0].userdata
-                                           Nextfigure2.userData=figure.next[1].userdata
-                                           /////////////////
-                                           for (var g=0;g<data.length-1;g++){//atnen 3ndhm nfs l end
-                                           if (data[g].x==data[count3].next[1].x&&data[g].y==data[count3].next[1].y &&data[g].type==data[count3].next[1].type)
-                                                 Nextfigure3=data[g].next
-                                           if (data[g].x==data[count3].next[0].x&&data[g].y==data[count3].next[0].y &&data[g].type==data[count3].next[0].type)
-                                                                                            Nextfigure2.next=data[g].next
-                                           }
-                                          customCanvas.add( Nextfigure1, figure.next[0].x,figure.next[0].y);
-                                         customCanvas.add( Nextfigure2, figure.next[1].x,figure.next[1].y);
-                                           var c = new LabelConnection({
-                                           	     source:figure.getOutputPort(1),
-                                           	     target:Nextfigure1.getInputPort(0)
-                                           	 });
-                                           	figure.outputPorts.data[1].connections.data[0].label.text=figure.userData[1]
-                                           	 customCanvas.add(c);
-                                           	 var d = new LabelConnection({
-                                           	  source:figure.getOutputPort(0),
-                                           	   target:Nextfigure2.getInputPort(0)
-                                           	   });
-                                           	   figure.outputPorts.data[0].connections.data[0].label.text=figure.userData[2]
-                                           	   customCanvas.add(d);
-                                            Nextfigure3=Nextfigure2
-                                            console.log(Nextfigure3)
-                                             i++;
-                                             count++;
-                                             continue;
-                                                        }
-                                        else{
-                                       nextShape=data[count3].next[0]
-                                        nexttype1=data[count3].next[0].type
-                                       Nextfigure1 = eval("new "+nexttype1+"();");
-                                       Nextfigure1.userData=data[count3].userdata
-                                       customCanvas.add( Nextfigure1, nextShape.x,nextShape.y);
-                                       }
-                                       //customCanvas.figures.data[shapesDone].userData=data.shapesArray[count3].userdata
-                                       //shapesDone++
-                                       console.log(type+"      ff   " +nexttype1)
-                                       }
-                                        if(Nextfigure1.cssClass=="end"&&Nextfigure3!=null)
-                                            {
-                                            var h = new draw2d.Connection();
-                                            h.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
-                                             h.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
-                                              h.setSource(Nextfigure3.getOutputPort(0));
-                                             h.setTarget(Nextfigure1.getInputPort(0));
-                                              customCanvas.add(h);
-                                                 }
+                                  if(figure.cssClass=="diamond"){
+                                  Nextfigure=eval("new "+nextOfShape.type+"();");
+                                   Nextfigure.userData=nextOfShape.userdata
+                                     var c = new LabelConnection({
+                                     source:figure.getOutputPort(1),
+                                     target:Nextfigure.getInputPort(0)
+                                                                 });
+                                     figure.outputPorts.data[1].connections.data[0].label.text=figure.userData[1]
 
-                                        var c = new draw2d.Connection();
+                                   }
+                                   else{
+                                   Nextfigure=eval("new "+nextOfShape.type+"();");//add//end
+                                   Nextfigure.userData=nextOfShape.userdata
+                                   }
+                                   if (nextOfShape.type=="diamond"){
+                                   Nextfigure.label.text=nextOfShape.userdata[0]
+                                   }
 
-                                        c.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
-                                        c.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
-                                       // if(figure.type=="addition"&&Nextfigure1.type=="end"){)
-                                       console.log(figure)
-                                       console.log(Nextfigure1)
-                                        c.setSource(figure.getOutputPort(0));
-                                        //c.setSource(figure.getOutputPort(1));
-                                        c.setTarget(Nextfigure1.getInputPort(0));
-                                        //c.setTarget(Nextfigure2.getInputPort(0));
-                                        customCanvas.add(c);
+                                   customCanvas.add( Nextfigure, nextOfShape.x,nextOfShape.y);
 
-                                      i++;
-                                      count++;
-                              }
+                                  if (figure.cssClass=="diamond"){
+                                  var c = new LabelConnection({
+                                  source:figure.getOutputPort(0),
+                                  target:Nextfigure.getInputPort(0)
+                                                              });
+                                  figure.outputPorts.data[0].connections.data[0].label.text=figure.userData[2]
+                                     customCanvas.add(c);
+                                   var Nextfigure2=eval("new "+nextOfShape2.type+"();");
+                                   Nextfigure2.userData=nextOfShape2.userdata
+                                   console.log(nextOfShape2)
+                                   customCanvas.add( Nextfigure2, nextOfShape2.x,nextOfShape2.y);
+                                     var d = new LabelConnection({
+                                            source:figure.getOutputPort(1),
+                                            target:Nextfigure2.getInputPort(0)
+                                                         });
+                                   figure.outputPorts.data[1].connections.data[1].label.text=figure.userData[1]
+                                    customCanvas.add(d);
+                                    if(nextOfShape2.next!=null){
+                                    Nextfigure3=Nextfigure2
+                                    nextOfShape3=nextOfShape2.next[0]
+                                     for(var g=0;g<size;g++){
+                                     if (nextOfShape3.type==data[g].type&&nextOfShape3.x==data[g].x&&nextOfShape3.y==data[g].y){
+                                     nextOfShape3=data[g]
+                                     break;
+                                     }
+                                     }
+                                    }
+                                  }
+                                  else{
+                                  if(Nextfigure3!=null){
+                                  if(Nextfigure.cssClass==nextOfShape3.type&&Nextfigure.x==nextOfShape3.x&&nextOfShape3.y==nextOfShape3.y){
+                                                var h = new draw2d.Connection();
+                                                h.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+                                                 h.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
+                                                 h.setSource(Nextfigure3.getOutputPort(0));
+                                                 h.setTarget(Nextfigure.getInputPort(0));
+                                                  customCanvas.add(h);
+                                                                     }
+                                                                     }
+                                   var c = new draw2d.Connection();
+                                   c.setSourceDecorator(new draw2d.decoration.connection.BarDecorator());
+                                   c.setTargetDecorator(new draw2d.decoration.connection.BarDecorator());
+                                   c.setSource(figure.getOutputPort(0));
+                                   c.setTarget(Nextfigure.getInputPort(0));
+                                   customCanvas.add(c);
+
+                                   }
+
+
+                                 }//bta3t l for
                               }
 
 
