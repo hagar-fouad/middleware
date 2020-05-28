@@ -8,6 +8,7 @@
    <link type="text/css" rel="stylesheet" href="./css/aristo/jquery-ui-1.8.16.custom.css" />
    <link type="text/css" rel="stylesheet" href="./css/jquery.layout.css" />
    <link type="text/css" rel="stylesheet" href="./css/application.css" />
+    <link type="text/css" rel="stylesheet" href="./css/example.css" />
 
     <script src="./lib/jquery.js"></script>
     <script src="./lib/jquery-ui.js"></script>
@@ -20,7 +21,7 @@
 	  <script src="./gui/View.js"></script>
     <script src="./gui/Toolbar.js"></script>
     <script src="./gui/HoverConnection.js"></script>
-
+    <script src="./gui/LabelConnection.js"></script>
     
     <script src="./gui/testShape.js"></script>
     <script src="./gui/addition.js"></script>
@@ -41,17 +42,27 @@
     <script src="./gui/condition.js"></script>
     <script src="./gui/DblClickCanvasPolicy.js"></script>
     <script src="./gui/diamond.js"></script>
+
     <script src="./gui/GetAccountDetails.js"></script>
     <script src="./gui/ReadMobNumber.js"></script>
     <script src="./gui/UpdateBalanceDate.js"></script>
+    <script src="./gui/UpdateOffer.js"></script>
     <script type="text/javascript">
 
-document.addEventListener("DOMContentLoaded",function () {
+
+
+
+    document.addEventListener("DOMContentLoaded",function () {
 
      var app  = new example.Application();
      app.view.installEditPolicy(  new draw2d.policy.connection.DragConnectionCreatePolicy({
         createConnection: function(){
+        if (myfigure.cssClass==="diamond")
+            return new LabelConnection();
+        else{
+              console.log("hover connnection");
             return new HoverConnection();
+            }
         }
       }));
       app.view.installEditPolicy(new DblClickCanvasPolicy());
@@ -62,16 +73,24 @@ document.addEventListener("DOMContentLoaded",function () {
         var variableDic={}
         var resultsDic={}
         var count=1;
-
-
-
+        var endVariables=[]
+        var arr=[]
+        var hoo=0
        function saveDic(name,value) 
        {
 
          variableDic[name]=value
          console.log(value)
          document.getElementById("variables").append(name)
+         document.getElementById("endVars").append(name)
          //document.getElementById("variables")
+         arr[hoo]=document.getElementById('inpName').value
+           myfigure.userData=arr
+           console.log(arr[hoo])
+           console.log(hoo)
+           console.log(arr)
+           hoo++
+
 
 
        }
@@ -89,14 +108,58 @@ document.addEventListener("DOMContentLoaded",function () {
          document.getElementById("valueS").value=temp;
        }
 
+       function RemoveVar(x)
+        {
+         var sel = document.getElementById('mySelect');
+        // create new option element
+        var opt = document.createElement('option');
+        // create text node to add to option element (opt)
+        opt.appendChild( document.createTextNode(x) );
+        // add opt to end of select box (sel)
+        sel.appendChild(opt);
+        //////////////
+        var y = document.getElementById("endVars");
+   for (i = 0; i < y.options.length; i++) {
+        if(y.options[i].value==x)
+        {
+        var cList = document.querySelector("#endVars");
+         cList.children[i].remove()
+        }
+    }
+          document.getElementById('endlist').value=''
+          endVariables.push(x)
+          myfigure.userData=endVariables
+        }
        function add(name)
        {
          var x =document.getElementById("variables")
          var option=document.createElement("option")
          option.text=name
          x.append(option)
+
+         ////////////////////
+         var y= document.getElementById("endVars")
+         var option=document.createElement("option")
+         option.text=name
+         y.append(option)
+
          
        }
+       ///////////////////////////
+       ///////////////////////////////////////huda
+       function AddList(name)
+       {
+         var sel = document.getElementById('mySelect');
+        // create new option element
+        var opt = document.createElement('option');
+        // create text node to add to option element (opt)
+        opt.appendChild( document.createTextNode(name) );
+        // add opt to end of select box (sel)
+        sel.appendChild(opt);
+         var x = document.getElementById("endlist");
+          x.remove(x.selectedIndex);
+       }
+
       
 
        function returnValue(name)
@@ -111,10 +174,11 @@ document.addEventListener("DOMContentLoaded",function () {
          var x =document.getElementById("variables")
          var option=document.createElement("option")
          option.text=temp
+
          x.append(option)
             var array= []
-            array[0]=document.getElementById("var2text").value
-            array[1]=document.getElementById("var1text").value
+            array[0]=document.getElementById("var1text").value
+            array[1]=document.getElementById("var2text").value
             myfigure.userData=array
 
          count++
@@ -140,11 +204,36 @@ document.addEventListener("DOMContentLoaded",function () {
        <input hidden="true" type="text"id="inpValue"> <br>
            <br>
        <button hidden="true"type="button" class="button" id="saveVariables" onclick="saveDic(document.getElementById('inpName').value,document.getElementById('inpValue').value) ;add(document.getElementById('inpName').value);clearr()">Save</button>
-      <label hidden="true" id="var1Label">Variable1 </label>
+
+       <!-- /////// -->
+
+      <!-- <select hidden="ture" id="endlist" class="custom-select" size="1"  onclick="AddList(document.getElementById('endlist').value)">
+           <option value="" disabled selected>Choose end variables </option>
+       </select> -->
+
+       <input  hidden ="true " id="endlist"  type="text" list="endVars" />
+       <datalist id="endVars" >
+       </datalist>
+        <br>
+       <br>
+       <button type="button" class="button" id="endAdd" hidden="true" onclick="RemoveVar(document.getElementById('endlist').value)">add</button>
+
+      <!-- <button hidden="true"type="button" class="button" id="AddE" onclick=" AddList(document.getElementById('endlist').value) ">↓</button> -->
+      <br>
+       <br>
+       <select hidden="true" id="mySelect" class="custom-select" size="3">
+           <option value="" disabled selected >Variables choosen : </option>
+
+       </select>
+       <br>
+
+
+       <label hidden="true" id="var1Label">Variable1 </label>
       <input  hidden ="true " id="var1text"  type="text" list="variables" oninput="returnValue(document.getElementById('var1text').value)" />
       <datalist id="variables" >     
       </datalist>
-    
+    <!-- /////// -->
+
       <label hidden="true" id="var2Label">Variable2: </label>
       <input  hidden ="true " id="var2text"  type="text" list="variables" oninput="returnValue(document.getElementById('var2text').value)" />
       <datalist id="variables" >
@@ -168,13 +257,16 @@ document.addEventListener("DOMContentLoaded",function () {
        <div class="dropdown-container">
            <a href="#"data-shape="GetAccountDetails"   class=" draw2d_droppable">GetAccountDetails</a>
            <a href="#"data-shape="UpdateBalanceDate"   class=" draw2d_droppable">UpdateBalanceDate</a>
+           <a href="#"data-shape="UpdateOffer"   class=" draw2d_droppable">UpdateOffer</a>
        </div>
        <button class="dropdown-btn">Functions
            <i class="fa fa-caret-down"></i> </button>
        <div class="dropdown-container">
            <a href="#"data-shape="ReadMobNumber"   class=" draw2d_droppable">ReadMobNumber</a>
+
        </div>
-           <button class="dropdown-btn">Arthimatic Operation
+
+       <button class="dropdown-btn">Arithmetic Operation
       <i class="fa fa-caret-down"></i> </button>
       <div class="dropdown-container">
         <a href="#"data-shape="addition"   class=" draw2d_droppable">Addition</a>

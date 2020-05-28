@@ -24,7 +24,7 @@ example.Toolbar = Class.extend({
 		       this.view.getCommandStack().undo();
 		},this)).button( "option", "disabled", true );
 
-		  this.OpenButton  = $("<button>open</button>");
+		  this.OpenButton  = $("<button>Open</button>");
 		this.html.append(this.OpenButton);
 		this.OpenButton.button().click($.proxy(function(){
 		var urlParams = new URLSearchParams(window.location.search);

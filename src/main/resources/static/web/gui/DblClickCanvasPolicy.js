@@ -17,6 +17,9 @@ function myOperation2(){
     document.getElementById("varValue").hidden=true
     document.getElementById("inpName").hidden=true
     document.getElementById("inpValue").hidden=true
+     document.getElementById("mySelect").hidden=true
+     document.getElementById("endAdd").hidden=true
+                     document.getElementById("endlist").hidden=true
   myuserdata.push(document.getElementById("conditionIn").value)
   myfigure.userData=myuserdata
   myfigure.text= document.getElementById("conditionIn").value
@@ -114,7 +117,10 @@ var DblClickCanvasPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
                document.getElementById("conditionIn").hidden=false
                document.getElementById("conditionBut").hidden=false
                document.getElementById("CondLabel").hidden=false
+                    document.getElementById("endAdd").hidden=true
 
+ document.getElementById("mySelect").hidden=true
+                 document.getElementById("endlist").hidden=true
                
             }
             else if (figure.cssClass==="start")
@@ -124,9 +130,53 @@ var DblClickCanvasPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
               document.getElementById("varValue").hidden=false
               document.getElementById("inpName").hidden=false
               document.getElementById("inpValue").hidden=false
+               document.getElementById("var1Label").hidden=true
+               document.getElementById("var2Label").hidden= true
+               document.getElementById("var2text").hidden=true
+               document.getElementById("var1text").hidden=true
+               document.getElementById("resultBut").hidden=true
+               document.getElementById("resLabel").hidden=true
+               document.getElementById("resultIn").hidden=true
+               document.getElementById("conditionIn").hidden=true
+               document.getElementById("conditionBut").hidden=true
+               document.getElementById("CondLabel").hidden=true
+                document.getElementById("mySelect").hidden=true
+                                document.getElementById("endlist").hidden=true
+                                     document.getElementById("endAdd").hidden=true
+
+            }
+            else if( figure.cssClass==="end")
+            {
+     document.getElementById("endAdd").hidden=false
+                 document.getElementById("saveVariables").hidden=true
+                 //document.getElementById("AddE").hidden=false
+                 document.getElementById("mySelect").hidden=false
+                 document.getElementById("endlist").hidden=false
+                  document.getElementById("var1text").hidden= true
+                  document.getElementById("varValue").hidden=true
+                  document.getElementById("inpName").hidden=true
+                  document.getElementById("inpValue").hidden=true
+                   document.getElementById("var1Label").hidden=true
+                   document.getElementById("var2Label").hidden= true
+                   document.getElementById("var2text").hidden=true
+                   document.getElementById("var1text").hidden=true
+                   document.getElementById("resultBut").hidden=true
+                   document.getElementById("resLabel").hidden=true
+                   document.getElementById("resultIn").hidden=true
+                   document.getElementById("conditionIn").hidden=true
+                   document.getElementById("conditionBut").hidden=true
+                   document.getElementById("CondLabel").hidden=true
+
+                    document.getElementById("varName").hidden=true
+
             }
             else if(figure.cssClass==="NOT")
             {
+                 document.getElementById("endAdd").hidden=true
+
+            document.getElementById("var2text").text="";
+            document.getElementById("var1text").text="";
+            document.getElementById("resultIn").text="";
               document.getElementById("var1Label").hidden=false
               document.getElementById("var2Label").hidden= true  
               document.getElementById("var2text").hidden=true
@@ -142,8 +192,16 @@ var DblClickCanvasPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
               document.getElementById("conditionIn").hidden=true
               document.getElementById("conditionBut").hidden=true
               document.getElementById("CondLabel").hidden=true
+
+     document.getElementById("mySelect").hidden=true
+                     document.getElementById("endlist").hidden=true
             }
-            else{
+            else if (figure.cssClass==="subtraction" || figure.cssClass==="addition"|| figure.cssClass==="division" ||figure.cssClass==="multiplication" || figure.cssClass==="OR"|| figure.cssClass==="AND" || figure.cssClass==="NOT"){
+           document.getElementById("var2text").text="";
+           document.getElementById("var1text").text="";
+           document.getElementById("resultIn").text="";
+                document.getElementById("endAdd").hidden=true
+
             document.getElementById("var1Label").hidden=false
             document.getElementById("var2Label").hidden=false   
             document.getElementById("var2text").hidden=false
@@ -157,6 +215,29 @@ var DblClickCanvasPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
               document.getElementById("inpName").hidden=true
               document.getElementById("inpValue").hidden=true
             document.getElementById("CondLabel").hidden=true
+
+     document.getElementById("mySelect").hidden=true
+                     document.getElementById("endlist").hidden=true
+            }
+            else
+            {
+                 document.getElementById("endAdd").hidden=true
+             document.getElementById("var1Label").hidden=true
+                        document.getElementById("var2Label").hidden=true
+                        document.getElementById("var2text").hidden=true
+                        document.getElementById("var1text").hidden=true
+                        document.getElementById("resultBut").hidden=true
+                        document.getElementById("conditionIn").hidden=true
+                        document.getElementById("conditionBut").hidden=true
+                        document.getElementById("saveVariables").hidden=true
+                          document.getElementById("varName").hidden= true
+                          document.getElementById("varValue").hidden=true
+                          document.getElementById("inpName").hidden=true
+                          document.getElementById("inpValue").hidden=true
+                        document.getElementById("CondLabel").hidden=true
+
+     document.getElementById("mySelect").hidden=true
+                     document.getElementById("endlist").hidden=true
             }
 
             //alert(   JSON.stringify(figure.cssClass)   )
