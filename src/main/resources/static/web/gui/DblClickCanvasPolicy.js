@@ -3,8 +3,8 @@ var css="h"
 var myfigure= new Object()
 var counter=0
 var shape2= new Object()
+var myuserdata=[]
 function myOperation2(){
-
   document.getElementById("var1Label").hidden=true
   document.getElementById("var2Label").hidden= true  
   document.getElementById("var2text").hidden=true
@@ -17,9 +17,9 @@ function myOperation2(){
     document.getElementById("varValue").hidden=true
     document.getElementById("inpName").hidden=true
     document.getElementById("inpValue").hidden=true
-  myfigure.userData= document.getElementById("conditionIn").value
+  myuserdata.push(document.getElementById("conditionIn").value)
+  myfigure.userData=myuserdata
   myfigure.text= document.getElementById("conditionIn").value
-  console.log("nada")
   }
 function myOperation(v1,v2,name1,name2)
        {
@@ -107,8 +107,8 @@ var DblClickCanvasPolicy = draw2d.policy.canvas.CanvasPolicy.extend({
                document.getElementById("resLabel").hidden=true
                document.getElementById("resultIn").hidden=true
                document.getElementById("saveVariables").hidden=true
-              document.getElementById("varName").hidden= true
-              document.getElementById("varValue").hidden=true
+               document.getElementById("varName").hidden= true
+               document.getElementById("varValue").hidden=true
               document.getElementById("inpName").hidden=true
               document.getElementById("inpValue").hidden=true
                document.getElementById("conditionIn").hidden=false
