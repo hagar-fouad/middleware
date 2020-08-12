@@ -7,6 +7,7 @@ import com.javainuse.model.Shape2;
 import com.javainuse.model.Workflow;
 import org.json.simple.parser.ParseException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,8 @@ import org.json.simple.parser.*;
 @RestController
 public class shapeController {
     //Shape[] temp = new Shape[100];
+    @Value("${json.dir}")
+            private String dir;
     int j=0;
        String wnname="";
     @PostMapping("/wn")
@@ -35,8 +38,9 @@ public class shapeController {
     }
     @GetMapping("/workflow")
     public Shape[] getShape() throws IOException, ParseException {
-        System.out.println("lesm wasal lelGEt");
-        Object obj = new JSONParser().parse(new FileReader(wnname));
+        System.out.println(dir+wnname);
+
+        Object obj = new JSONParser().parse(new FileReader(dir+wnname));
         // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray ) obj;
         Shape[] array = new Shape[jsonArray.size()
@@ -108,7 +112,7 @@ return array;
     @PostMapping("/workflow")
     public String saveShape(@RequestBody Workflow x) throws IOException {
         try {
-            String Filename=x.getName()+".json";
+            String Filename=dir+x.getName()+".json";
             System.out.println(Filename);
             Writer writer = new FileWriter(Filename);
             System.out.println(x);
