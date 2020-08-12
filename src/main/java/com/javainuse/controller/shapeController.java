@@ -28,7 +28,7 @@ public class shapeController {
     //Shape[] temp = new Shape[100];
     @Value("${json.dir}")
             private String dir;
-    int j=0;
+
        String wnname="";
     @PostMapping("/wn")
     public void sendname(@RequestBody String x)  {
@@ -39,7 +39,7 @@ public class shapeController {
     @GetMapping("/workflow")
     public Shape[] getShape() throws IOException, ParseException {
         System.out.println(dir+wnname);
-
+        final int[] j = {0};
         Object obj = new JSONParser().parse(new FileReader(dir+wnname));
         // typecasting obj to JSONObject
         JSONArray jsonArray = (JSONArray ) obj;
@@ -49,18 +49,18 @@ public class shapeController {
             JSONObject jo = (JSONObject) item;
             long myX = (long) jo.get("x");
             //System.out.println(myX);
-            array[j]=new Shape();
-            array[j].setX(myX);
+            array[j[0]]=new Shape();
+            array[j[0]].setX(myX);
 
             long myY = (long) jo.get("y");
-            array[j].setY(myY);
+            array[j[0]].setY(myY);
            // System.out.println(myY);
             String myType = (String) jo.get("type");
             //System.out.println(myType);
-            array[j].setType(myType);
+            array[j[0]].setType(myType);
             String myID = (String) jo.get("id");
             //System.out.println(myID);
-            array[j].setId(myID);
+            array[j[0]].setId(myID);
             JSONArray ja = (JSONArray) jo.get("next");
             int k=0;
             Shape2[] mynexttemp=new Shape2[ja.size()];
@@ -80,7 +80,7 @@ public class shapeController {
                 mynexttemp[k].setY(nextY);
                 k++;
             }
-            array[j].setNext(mynexttemp);
+            array[j[0]].setNext(mynexttemp);
             JSONArray userdata = (JSONArray) jo.get("userdata");
             String[] Myuserdata=new String[userdata.size()];
             k=0;
@@ -91,7 +91,7 @@ public class shapeController {
                    k++;
                 }
             }
-            array[j].setUserdata(Myuserdata);
+            array[j[0]].setUserdata(Myuserdata);
             JSONObject previous =  (JSONObject) jo.get("previous");
             Shape2 temp=new Shape2();
             long f=(long)previous.get("x");
@@ -99,9 +99,9 @@ public class shapeController {
             f=(long)previous.get("y");
             temp.setY(f);
             temp.setType((String) previous.get("type"));
-            array[j].setPrevious(temp);
+            array[j[0]].setPrevious(temp);
             //System.out.println(array[j]);
-         j++;
+         j[0]++;
         });
         /*for (Shape element: array) {
             System.out.println(element);
