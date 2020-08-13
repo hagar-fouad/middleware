@@ -76,7 +76,7 @@
         var endVariables=[]
         var arr=[]
         var hoo=0
-       function saveDic(name,value) 
+       function saveDic(name,value)
        {
 
          variableDic[name]=value
@@ -98,14 +98,7 @@
        {
 
         document.getElementById('inpName').value=''
-         document.getElementById('inpValue').value=''
-       }
-       function Search(name)
-       {
-         var temp= variableDic[name]
-         document.getElementById("valueLabel").hidden=false
-         document.getElementById("valueS").hidden=false
-         document.getElementById("valueS").value=temp;
+         //document.getElementById('inpValue').value=''
        }
 
        function RemoveVar(x)
@@ -145,8 +138,7 @@
 
          
        }
-       ///////////////////////////
-       ///////////////////////////////////////huda
+
        function AddList(name)
        {
          var sel = document.getElementById('mySelect');
@@ -169,7 +161,7 @@
        }
        function saveRes(res)
        {
-         var temp="result"+count
+         var temp="res"+count
          variableDic[temp]=res
          var x =document.getElementById("variables")
          var option=document.createElement("option")
@@ -186,7 +178,8 @@
             array[0]=document.getElementById("var1text").value
             array[1]=document.getElementById("var2text").value
             myfigure.userData=array
-
+            document.getElementById('var1text').value=''
+            document.getElementById('var2text').value=''
          count++
        }
 
@@ -205,17 +198,14 @@
    <div  id="navigation" >
 
        <label hidden="true" id="varName">Name: </label>
-       <input hidden="true" type="text"id="inpName"> <br>
-       <label hidden="true" id="varValue">Value: </label>
-       <input hidden="true" type="text"id="inpValue"> <br>
-           <br>
-       <button hidden="true"type="button" class="button" id="saveVariables" onclick="saveDic(document.getElementById('inpName').value,document.getElementById('inpValue').value) ;add(document.getElementById('inpName').value);clearr()">Save</button>
+       <input hidden="true" type="text"id="inpName">
+       <br>
+       <br>
+       <button hidden="true"type="button" class="button" id="saveVariables" onclick="saveDic(document.getElementById('inpName').value,0) ;add(document.getElementById('inpName').value);clearr()">Save</button>
 
        <!-- /////// -->
 
-      <!-- <select hidden="ture" id="endlist" class="custom-select" size="1"  onclick="AddList(document.getElementById('endlist').value)">
-           <option value="" disabled selected>Choose end variables </option>
-       </select> -->
+
 
        <input  hidden ="true " id="endlist"  type="text" list="endVars" />
        <datalist id="endVars" >
@@ -224,7 +214,6 @@
        <br>
        <button type="button" class="button" id="endAdd" hidden="true" onclick="RemoveVar(document.getElementById('endlist').value)">add</button>
 
-      <!-- <button hidden="true"type="button" class="button" id="AddE" onclick=" AddList(document.getElementById('endlist').value) ">↓</button> -->
       <br>
        <br>
        <select hidden="true" id="mySelect" class="custom-select" size="3">
@@ -244,10 +233,8 @@
       <input  hidden ="true " id="var2text"  type="text" list="variables" oninput="returnValue(document.getElementById('var2text').value)" />
       <datalist id="variables" >
       </datalist>
-
-      <br><label hidden="true" id="resLabel">Result: </label>
-      <input type="text"id="resultIn" hidden="true" > <br> <br> 
-      <button type="button" class="button" id="resultBut" hidden="true" onclick="myOperation(returnValue(document.getElementById('var1text').value),returnValue( document.getElementById('var2text').value),document.getElementById('var1text').value,document.getElementById('var2text').value),saveRes(document.getElementById('resultIn').value)">Result</button>
+      <br> <br>
+      <button type="button" class="button" id="resultBut" hidden="true" onclick="saveRes(0)">Add</button>
 
       <label hidden="true" id="CondLabel">Variables: </label>
       <input type="text"id="conditionIn" hidden="true" list="variables" oninput="returnValue(document.getElementById('var1text').value)"> <br> <br> 
@@ -287,14 +274,7 @@
         <a href="#"data-shape="AND"class=" draw2d_droppable">AND</a>
         <a href="#"data-shape="NOT"class=" draw2d_droppable">NOT</a>   
       </div>
-      <button class="dropdown-btn">Search
-        <i class="fa fa-caret-down"></i> </button>
-      <div class="dropdown-container"> 
-         Name: <input type="text" id="nameS">
-         <label hidden="true" id="valueLabel">Value: </label>
-         <input type="text"id="valueS" hidden="true"> <br>
-         <br><button type="button" class="button" id="saveVariable" onclick="Search(document.getElementById('nameS').value)" >Search</button>
-      </div>
+
       <a href="#"data-shape="start" class="draw2d_droppable" >Start</a>
       <a href="#"data-shape="end" class=" draw2d_droppable">End</a>
 

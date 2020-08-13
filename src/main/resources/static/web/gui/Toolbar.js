@@ -28,7 +28,7 @@ example.Toolbar = Class.extend({
 		this.html.append(this.OpenButton);
 		this.OpenButton.button().click($.proxy(function(){
 		var urlParams = new URLSearchParams(window.location.search);
-var openWN=document.getElementById("workflowName").value
+
          var token= urlParams.get('token'); //
               $.ajax({
 				type: "POST",
@@ -42,10 +42,10 @@ var openWN=document.getElementById("workflowName").value
 			  var urlParams = new URLSearchParams(window.location.search);
 
                        var token= urlParams.get('token'); //
-
+var openWN=document.getElementById("workflowName").value
 			$.ajax({
 				type: "GET",
-				url: "/workflow",
+				url: "/workflow/"+openWN+"",
 				headers: {"Authorization": "Bearer "+token},
 
 				//data:JSON.stringify(shape),
